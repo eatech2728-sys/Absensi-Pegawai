@@ -5,6 +5,7 @@ import { defineConfig } from 'vite';
 
 export default defineConfig(() => {
   return {
+    base: '/nama-repositori-anda/', // <--- GANTI dengan nama repositori GitHub Anda (wajib pakai '/' di awal & akhir)
     plugins: [
       react(),
       tailwindcss(),
