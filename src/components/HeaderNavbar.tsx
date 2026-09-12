@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import { Employee, ThemeMode } from '../types';
 import { ShieldCheck, ChevronDown, History, Camera, Moon, Sun, Layers, Monitor, Check, Laptop } from 'lucide-react';
 import { TechnicalStatusIndicator, TechnicalStatusProps } from './TechnicalStatusIndicator';
