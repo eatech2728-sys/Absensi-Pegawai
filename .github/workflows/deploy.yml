@@ -1,45 +1,34 @@
-name: Deploy Vite App to GitHub Pages
+name: Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - main # Ganti dengan nama branch Anda jika bukan main
+      - main # Jalankan otomatis setiap Anda push ke branch main
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
+  contents: write # PENTING: Memberikan izin akses untuk mengunggah hasil build
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps: deployment.outputs.page_url }}
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v1
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          bun-version: latest
+          node-version: 18 # Sesuaikan dengan versi Node yang Anda gunakan
 
-      - name: Install dependencies
-        run: bun install
+      - name: Install Dependencies
+        run: npm install --frozen-lockfile || npm install
 
-      - name: Build project
-        run: bun run build
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./dist # Folder hasil build Vite
+      - name: Build Project
+        run: npm run build
 
       - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist # Folder hasil build Vite (biasanya 'dist' atau 'build')
+          branch: gh-pages # Hasil akhir akan dikirim ke branch gh-pages
