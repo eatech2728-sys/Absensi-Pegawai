@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-// PERBAIKAN: Mengubah jalur impor dari 'motion/react' ke 'framer-motion'
+// Jalur impor yang sudah disesuaikan agar dibaca oleh rollup/vite
 import { motion, AnimatePresence } from 'framer-motion';
 import { HeaderNavbar } from './components/HeaderNavbar';
 import { LocationRadar } from './components/LocationRadar';
@@ -253,4 +253,39 @@ export default function App() {
           </div>
         ) : (
           <AttendanceHistory 
-records={records}onViewReceipt={setSelectedReceiptRecord}/>)}{toastMessage && (<motion.divinitial={{ opacity: 0, y: 50 }}animate={{ opacity: 1, y: 0 }}exit={{ opacity: 0, y: 50 }}className="fixed bottom-5 right-5 bg-blue-600 text-white px-4 py-3 rounded-lg shadow-xl z-50 flex items-center space-x-2">{toastMessage}</motion.div>)}<AttendanceSuccessModalisOpen={isCelebrationOpen}record={celebrationRecord}onClose={() => setIsCelebrationOpen(false)}/><AttendanceReceiptModalrecord={selectedReceiptRecord}onClose={() => setSelectedReceiptRecord(null)}/><OfficeSettingsModalisOpen={isOfficeModalOpen}offices={offices}activeOffice={activeOffice}onSave={setOffices}onSelect={setActiveOffice}onClose={() => setIsOfficeModalOpen(false)}/><OfflineQueueModalisOpen={isQueueModalOpen}queue={queue}onClose={() => setIsQueueModalOpen(false)}/>);}
+            records={records}
+            onViewReceipt={setSelectedReceiptRecord}/>
+          )}
+          {toastMessage && (
+          <motion.div 
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 50 }}
+            className="fixed bottom-5 right-5 bg-blue-600 text-white px-4 py-3 rounded-lg shadow-xl z-50 flex items-center space-x-2">{
+            toastMessage}
+          </motion.div>
+          )}
+          <AttendanceSuccessModal
+            isOpen={isCelebrationOpen}
+            record={celebrationRecord}
+            onClose={() => setIsCelebrationOpen(false)}
+            />
+          <AttendanceReceiptModal
+          record={selectedReceiptRecord}
+          onClose={() => setSelectedReceiptRecord(null)}
+            />
+          <OfficeSettingsModal
+            isOpen={isOfficeModalOpen}
+            offices={offices}
+            activeOffice={activeOffice}
+            onSave={setOffices}
+            onSelect={setActiveOffice}
+            onClose={() => setIsOfficeModalOpen(false)}
+            />
+          <OfflineQueueModal
+            isOpen={isQueueModalOpen}
+            queue={queue}
+            onClose={() => setIsQueueModalOpen(false)}
+            />
+        );
+        }
