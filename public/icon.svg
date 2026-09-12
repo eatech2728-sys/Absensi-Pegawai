@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1d4ed8" />
+      <stop offset="50%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#4f46e5" />
+    </linearGradient>
+    <linearGradient id="pinGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#e0e7ff" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#0f172a" flood-opacity="0.3" />
+    </filter>
+  </defs>
+
+  <!-- Background with rounded squircle -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" />
+
+  <!-- Inner radar waves -->
+  <circle cx="256" cy="220" r="140" fill="none" stroke="#93c5fd" stroke-width="4" opacity="0.25" />
+  <circle cx="256" cy="220" r="180" fill="none" stroke="#93c5fd" stroke-width="3" opacity="0.15" />
+
+  <!-- Shield / Pin combination -->
+  <g filter="url(#shadow)">
+    <!-- Map Pin Outer -->
+    <path d="M256 90 C184 90 126 148 126 220 C126 310 256 410 256 410 C256 410 386 310 386 220 C386 148 328 90 256 90 Z" fill="url(#pinGrad)" />
+    <!-- Pin Center Core -->
+    <circle cx="256" cy="216" r="62" fill="#2563eb" />
+    <!-- Checkmark inside -->
+    <path d="M234 216 L248 230 L278 198" fill="none" stroke="#ffffff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+  
+  <!-- GPS Sat Pulse Point -->
+  <circle cx="256" cy="410" r="10" fill="#38bdf8" />
+  <circle cx="256" cy="410" r="18" fill="none" stroke="#38bdf8" stroke-width="3" opacity="0.8" />
+</svg>

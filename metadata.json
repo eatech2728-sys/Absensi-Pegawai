@@ -1,0 +1,11 @@
+{
+  "name": "Presensi Pegawai Berbasis Lokasi",
+  "description": "Aplikasi absensi kehadiran pegawai berbasis lokasi GPS dengan kamera selfie real-time, indikator koneksi server, validasi geofencing, dukungan offline Service Worker PWA, dan antrian sinkronisasi data presensi otomatis saat online.",
+  "requestFramePermissions": [
+    "camera",
+    "geolocation"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

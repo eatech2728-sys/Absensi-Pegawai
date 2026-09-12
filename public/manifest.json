@@ -1,0 +1,32 @@
+{
+  "id": "/",
+  "name": "Presensi Pegawai Berbasis Lokasi",
+  "short_name": "Presensi",
+  "description": "Aplikasi absensi kehadiran pegawai berbasis lokasi GPS dengan kamera selfie real-time, validasi geofencing, dan mode offline PWA.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#2563eb",
+  "background_color": "#f8fafc",
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

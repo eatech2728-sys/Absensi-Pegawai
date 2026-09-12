@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <script>
+      // Filter out benign Vite HMR reconnection warnings in containerized sandboxes
+      (function() {
+        const originalError = console.error;
+        console.error = function(...args) {
+          const msg = args.map(a => (typeof a === 'object' && a?.message ? a.message : String(a))).join(' ');
+          if (msg.includes('send was called before connect') || msg.includes('failed to connect to websocket')) {
+            return;
+          }
+          originalError.apply(console, args);
+        };
+        window.addEventListener('unhandledrejection', function(event) {
+          const reason = event?.reason;
+          const msg = reason?.message || String(reason || '');
+          if (msg.includes('send was called before connect') || msg.includes('failed to connect to websocket')) {
+            event.preventDefault();
+          }
+        });
+      })();
+
+      // Real-time detection of system theme preferences (prefers-color-scheme: dark)
+      (function() {
+        try {
+          const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+          const mode = localStorage.getItem('absensi_theme_mode') || 'system';
+
+          function updateTheme(isDark) {
+            if (isDark) {
+              document.documentElement.classList.add('dark');
+            } else {
+              document.documentElement.classList.remove('dark');
+            }
+            const meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', isDark ? '#0f172a' : '#2563eb');
+          }
+
+          if (mode === 'dark') {
+            updateTheme(true);
+          } else if (mode === 'light') {
+            updateTheme(false);
+          } else {
+            updateTheme(mediaQuery.matches);
+          }
+
+          function onSystemThemeChange(e) {
+            const currentMode = localStorage.getItem('absensi_theme_mode') || 'system';
+            if (currentMode === 'system') {
+              updateTheme(e.matches);
+              window.dispatchEvent(new CustomEvent('system-theme-change', { detail: { isDark: e.matches } }));
+            }
+          }
+
+          if (mediaQuery.addEventListener) {
+            mediaQuery.addEventListener('change', onSystemThemeChange);
+          } else if (mediaQuery.addListener) {
+            mediaQuery.addListener(onSystemThemeChange);
+          }
+        } catch (err) {
+          console.warn('System theme detection error:', err);
+        }
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Presensi Pegawai Berbasis Lokasi</title>
+    <meta name="description" content="Aplikasi absensi kehadiran pegawai berbasis lokasi GPS dengan kamera selfie real-time, indikator koneksi server, validasi geofencing, dukungan offline Service Worker PWA, dan antrian sinkronisasi data presensi otomatis saat online." />
+    <meta property="og:title" content="Presensi Pegawai Berbasis Lokasi" />
+    <meta property="og:description" content="Aplikasi absensi kehadiran pegawai berbasis lokasi GPS dengan kamera selfie real-time, indikator koneksi server, validasi geofencing, dukungan offline Service Worker PWA, dan antrian sinkronisasi data presensi otomatis saat online." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#2563eb" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Presensi" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/pwa-192x192.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-slate-50 text-slate-800 antialiased font-['Plus_Jakarta_Sans',sans-serif]">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
