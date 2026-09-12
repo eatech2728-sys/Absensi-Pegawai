@@ -257,12 +257,13 @@ export default function App() {
             onViewReceipt={setSelectedReceiptRecord}/>
           )}
           {toastMessage && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
-            className="fixed bottom-5 right-5 bg-blue-600 text-white px-4 py-3 rounded-lg shadow-xl z-50 flex items-center space-x-2">{
-            toastMessage}
+            className="fixed bottom-5 right-5 bg-blue-600 text-white px-4 py-3 rounded-lg shadow-xl z-50 flex items-center space-x-2">
+          
+          {toastMessage}
           </motion.div>
           )}
           <AttendanceSuccessModal
