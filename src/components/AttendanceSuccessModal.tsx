@@ -11,6 +11,7 @@ import {
   ShieldCheck,
   PartyPopper,
   ArrowRight,
+  Info
 } from 'lucide-react';
 import { AttendanceRecord } from '../types';
 import { triggerAttendanceSuccessConfetti } from '../utils/confetti';
@@ -117,7 +118,7 @@ export const AttendanceSuccessModal: React.FC<AttendanceSuccessModalProps> = ({
             <div className="bg-slate-50 border border-slate-200/80 rounded-2xl p-3.5 space-y-3">
               <div className="flex items-center gap-3">
                 {/* Selfie Avatar thumbnail with verified tick */}
-                <div className="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-slate-200 shadow-2xs">
+                <div className="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-slate-200 shadow-sm">
                   <img
                     src={record.photoUrl}
                     alt="Selfie Presensi"
@@ -188,33 +189,12 @@ export const AttendanceSuccessModal: React.FC<AttendanceSuccessModalProps> = ({
                   onClose();
                   onViewDetailedReceipt();
                 }}
-                className="w-full py-3 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 active:bg-black text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md transition transform active:scale-98 cursor-pointer"
+                className="w-full py-3 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 active:bg-black text-white font-bold text-sm transition flex items-center justify-center gap-2 shadow-lg"
               >
-                <FileText className="w-4 h-4 text-emerald-400" />
-                <span>Buka Bukti Resmi & Cetak Slip</span>
-                <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
+                <FileText className="w-4 h-4" />
+                Lihat Slip Presensi Detail
+                <ArrowRight className="w-4 h-4" />
               </button>
-
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  id="replay-confetti-btn"
-                  onClick={() => triggerAttendanceSuccessConfetti()}
-                  className="py-2.5 px-3 rounded-xl bg-amber-50 hover:bg-amber-100/80 active:bg-amber-200 text-amber-900 font-bold text-xs flex items-center justify-center gap-1.5 border border-amber-200/80 transition cursor-pointer"
-                >
-                  <PartyPopper className="w-3.5 h-3.5 text-amber-600" />
-                  <span>Ledakkan Konfeti 🎉</span>
-                </button>
-
-                <button
-                  type="button"
-                  id="finish-attendance-btn"
-                  onClick={onClose}
-                  className="py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 font-bold text-xs transition cursor-pointer"
-                >
-                  Selesai
-                </button>
-              </div>
             </div>
           </div>
         </motion.div>
