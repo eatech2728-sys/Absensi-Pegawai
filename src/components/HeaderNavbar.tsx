@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { motion } from 'motion/react';
 import { Employee, ThemeMode } from '../types';
 import { ShieldCheck, ChevronDown, History, Camera, Moon, Sun, Layers, Monitor, Check, Laptop } from 'lucide-react';
 import { TechnicalStatusIndicator, TechnicalStatusProps } from './TechnicalStatusIndicator';
@@ -279,18 +280,25 @@ export const HeaderNavbar: React.FC<HeaderNavbarProps> = ({
               )}
             </div>
 
-            {/* Navigation Tabs */}
-            <div className="flex items-center bg-slate-100 dark:bg-slate-800 border border-transparent dark:border-slate-700/60 p-1 rounded-xl">
+            {/* Navigation Tabs with Smooth Sliding Indicator */}
+            <div className="relative flex items-center bg-slate-100 dark:bg-slate-800 border border-transparent dark:border-slate-700/60 p-1 rounded-xl">
               <button
                 id="tab-attendance"
                 type="button"
                 onClick={() => onChangeTab('ATTENDANCE')}
-                className={`flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                className={`relative z-10 flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors duration-200 cursor-pointer ${
                   activeTab === 'ATTENDANCE'
-                    ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-300 shadow-xs'
+                    ? 'text-blue-600 dark:text-blue-300'
                     : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
+                {activeTab === 'ATTENDANCE' && (
+                  <motion.div
+                    layoutId="activeTabBadge"
+                    className="absolute inset-0 bg-white dark:bg-slate-700 rounded-lg shadow-xs -z-10"
+                    transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                  />
+                )}
                 <Camera className="w-3.5 h-3.5" />
                 <span>Presensi</span>
               </button>
@@ -298,12 +306,19 @@ export const HeaderNavbar: React.FC<HeaderNavbarProps> = ({
                 id="tab-history"
                 type="button"
                 onClick={() => onChangeTab('HISTORY')}
-                className={`flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                className={`relative z-10 flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors duration-200 cursor-pointer ${
                   activeTab === 'HISTORY'
-                    ? 'bg-white dark:bg-slate-700 text-blue-600 dark:text-blue-300 shadow-xs'
+                    ? 'text-blue-600 dark:text-blue-300'
                     : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
+                {activeTab === 'HISTORY' && (
+                  <motion.div
+                    layoutId="activeTabBadge"
+                    className="absolute inset-0 bg-white dark:bg-slate-700 rounded-lg shadow-xs -z-10"
+                    transition={{ type: 'spring', stiffness: 450, damping: 35 }}
+                  />
+                )}
                 <History className="w-3.5 h-3.5" />
                 <span>Riwayat</span>
                 {totalRecordsToday > 0 && (

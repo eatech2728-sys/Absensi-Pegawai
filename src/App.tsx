@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { HeaderNavbar } from './components/HeaderNavbar';
 import { LocationRadar } from './components/LocationRadar';
 import { AttendanceCard } from './components/AttendanceCard';
@@ -525,92 +526,111 @@ export default function App() {
           </div>
         </div>
 
-        {/* View Toggle */}
-        {activeTab === 'ATTENDANCE' ? (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            {/* Left Column: Attendance Action & Real-Time Camera Selfie */}
-            <div className="lg:col-span-7 space-y-6">
-              <AttendanceCard
-                employee={currentEmployee}
-                targetOffice={activeOffice}
-                currentLat={currentLat}
-                currentLng={currentLng}
-                accuracy={accuracy}
-                address={address}
-                distanceToOffice={distanceToOffice}
-                isWithinRadius={isWithinRadius}
-                attendanceType={attendanceType}
-                onChangeAttendanceType={setAttendanceType}
-                onSubmitAttendance={handleSubmitAttendance}
-                isOffline={effectiveOffline}
-              />
-            </div>
+        {/* Animated View Transition between Presensi and Riwayat */}
+        <AnimatePresence mode="wait">
+          {activeTab === 'ATTENDANCE' ? (
+            <motion.div
+              key="view-tab-attendance"
+              id="view-tab-attendance"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+              className="grid grid-cols-1 lg:grid-cols-12 gap-6"
+            >
+              {/* Left Column: Attendance Action & Real-Time Camera Selfie */}
+              <div className="lg:col-span-7 space-y-6">
+                <AttendanceCard
+                  employee={currentEmployee}
+                  targetOffice={activeOffice}
+                  currentLat={currentLat}
+                  currentLng={currentLng}
+                  accuracy={accuracy}
+                  address={address}
+                  distanceToOffice={distanceToOffice}
+                  isWithinRadius={isWithinRadius}
+                  attendanceType={attendanceType}
+                  onChangeAttendanceType={setAttendanceType}
+                  onSubmitAttendance={handleSubmitAttendance}
+                  isOffline={effectiveOffline}
+                />
+              </div>
 
-            {/* Right Column: Location Radar & Geofencing Perimeter */}
-            <div className="lg:col-span-5 space-y-6">
-              <LocationRadar
-                currentLat={currentLat}
-                currentLng={currentLng}
-                accuracy={accuracy}
-                address={address}
-                isLocating={isLocating}
-                locationError={locationError}
-                targetOffice={activeOffice}
-                distanceToOffice={distanceToOffice}
-                isWithinRadius={isWithinRadius}
-                onRefreshLocation={fetchCurrentLocation}
-                onSetCurrentAsOffice={handleSetCurrentAsOffice}
-                onSelectOffice={setActiveOffice}
-                allOffices={offices}
-                onOpenOfficeModal={() => setIsOfficeModalOpen(true)}
-                attendanceType={attendanceType}
-              />
+              {/* Right Column: Location Radar & Geofencing Perimeter */}
+              <div className="lg:col-span-5 space-y-6">
+                <LocationRadar
+                  currentLat={currentLat}
+                  currentLng={currentLng}
+                  accuracy={accuracy}
+                  address={address}
+                  isLocating={isLocating}
+                  locationError={locationError}
+                  targetOffice={activeOffice}
+                  distanceToOffice={distanceToOffice}
+                  isWithinRadius={isWithinRadius}
+                  onRefreshLocation={fetchCurrentLocation}
+                  onSetCurrentAsOffice={handleSetCurrentAsOffice}
+                  onSelectOffice={setActiveOffice}
+                  allOffices={offices}
+                  onOpenOfficeModal={() => setIsOfficeModalOpen(true)}
+                  attendanceType={attendanceType}
+                />
 
-              {/* Monthly Attendance Distribution Recharts Visualization Card */}
-              <MonthlyAttendanceDistributionCard
-                currentEmployee={currentEmployee}
-                records={records}
-              />
+                {/* Monthly Attendance Distribution Recharts Visualization Card */}
+                <MonthlyAttendanceDistributionCard
+                  currentEmployee={currentEmployee}
+                  records={records}
+                />
 
-              {/* Employee Quick Info Card */}
-              <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 shadow-xs transition-colors">
-                <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
-                  Informasi Pegawai Aktif
-                </h4>
-                <div className="flex items-start gap-3.5">
-                  <img
-                    src={currentEmployee.avatarUrl}
-                    alt={currentEmployee.name}
-                    className="w-14 h-14 rounded-2xl object-cover border border-slate-200 dark:border-slate-700 shadow-xs"
-                  />
-                  <div className="flex-1 space-y-1">
-                    <p className="font-bold text-slate-900 dark:text-slate-100 text-sm">{currentEmployee.name}</p>
-                    <p className="text-xs text-blue-600 dark:text-blue-400 font-semibold">{currentEmployee.nip}</p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">{currentEmployee.position} • {currentEmployee.department}</p>
+                {/* Employee Quick Info Card */}
+                <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 shadow-xs transition-colors">
+                  <h4 className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
+                    Informasi Pegawai Aktif
+                  </h4>
+                  <div className="flex items-start gap-3.5">
+                    <img
+                      src={currentEmployee.avatarUrl}
+                      alt={currentEmployee.name}
+                      className="w-14 h-14 rounded-2xl object-cover border border-slate-200 dark:border-slate-700 shadow-xs"
+                    />
+                    <div className="flex-1 space-y-1">
+                      <p className="font-bold text-slate-900 dark:text-slate-100 text-sm">{currentEmployee.name}</p>
+                      <p className="text-xs text-blue-600 dark:text-blue-400 font-semibold">{currentEmployee.nip}</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">{currentEmployee.position} • {currentEmployee.department}</p>
+                    </div>
                   </div>
-                </div>
 
-                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 grid grid-cols-2 gap-2 text-xs">
-                  <div className="bg-slate-50 dark:bg-slate-800/60 p-2.5 rounded-xl border border-transparent dark:border-slate-700/60">
-                    <span className="text-slate-400 block text-[10px]">Jadwal Masuk</span>
-                    <span className="font-bold text-slate-700 dark:text-slate-200">{currentEmployee.shift.startTime} WIB</span>
-                  </div>
-                  <div className="bg-slate-50 dark:bg-slate-800/60 p-2.5 rounded-xl border border-transparent dark:border-slate-700/60">
-                    <span className="text-slate-400 block text-[10px]">Toleransi Telat</span>
-                    <span className="font-bold text-slate-700 dark:text-slate-200">+{currentEmployee.shift.lateToleranceMinutes} Menit</span>
+                  <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 grid grid-cols-2 gap-2 text-xs">
+                    <div className="bg-slate-50 dark:bg-slate-800/60 p-2.5 rounded-xl border border-transparent dark:border-slate-700/60">
+                      <span className="text-slate-400 block text-[10px]">Jadwal Masuk</span>
+                      <span className="font-bold text-slate-700 dark:text-slate-200">{currentEmployee.shift.startTime} WIB</span>
+                    </div>
+                    <div className="bg-slate-50 dark:bg-slate-800/60 p-2.5 rounded-xl border border-transparent dark:border-slate-700/60">
+                      <span className="text-slate-400 block text-[10px]">Toleransi Telat</span>
+                      <span className="font-bold text-slate-700 dark:text-slate-200">+{currentEmployee.shift.lateToleranceMinutes} Menit</span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        ) : (
-          /* Tab: Riwayat Presensi */
-          <AttendanceHistory
-            records={records}
-            onSelectRecord={(rec) => setSelectedReceiptRecord(rec)}
-            currentEmployee={currentEmployee}
-          />
-        )}
+            </motion.div>
+          ) : (
+            /* Tab: Riwayat Presensi */
+            <motion.div
+              key="view-tab-history"
+              id="view-tab-history"
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <AttendanceHistory
+                records={records}
+                onSelectRecord={(rec) => setSelectedReceiptRecord(rec)}
+                currentEmployee={currentEmployee}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </main>
 
       {/* Interactive Confetti & Success Celebration Modal */}
