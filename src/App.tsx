@@ -251,42 +251,53 @@ export default function App() {
               <ClockInReminderBanner />
             </div>
           </div>
-        ) : (
+                ) : (
           <AttendanceHistory 
-            records={records}
-            onViewReceipt={setSelectedReceiptRecord}/>
-          )}
-          {toastMessage && (
-          <motion.div
+            records={records} 
+            onViewReceipt={setSelectedReceiptRecord} 
+          />
+        )}
+      </main>
+
+      <AnimatePresence>
+        {toastMessage && (
+          <motion.div 
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
-            className="fixed bottom-5 right-5 bg-blue-600 text-white px-4 py-3 rounded-lg shadow-xl z-50 flex items-center space-x-2">
-          
-          {toastMessage}
+            className="fixed bottom-5 right-5 bg-blue-600 text-white px-4 py-3 rounded-lg shadow-xl z-50 flex items-center space-x-2"
+          >
+            <Info size={18} />
+            <span>{toastMessage}</span>
           </motion.div>
-          )}
-          <AttendanceSuccessModal
-            isOpen={isCelebrationOpen}
-            record={celebrationRecord}
-            onClose={() => setIsCelebrationOpen(false)}
-            />
-          <AttendanceReceiptModal
-          record={selectedReceiptRecord}
-          onClose={() => setSelectedReceiptRecord(null)}
-            />
-          <OfficeSettingsModal
-            isOpen={isOfficeModalOpen}
-            offices={offices}
-            activeOffice={activeOffice}
-            onSave={setOffices}
-            onSelect={setActiveOffice}
-            onClose={() => setIsOfficeModalOpen(false)}
-            />
-          <OfflineQueueModal
-            isOpen={isQueueModalOpen}
-            queue={queue}
-            onClose={() => setIsQueueModalOpen(false)}
-            />
-        );
-        }
+        )}
+      </AnimatePresence>
+
+      <AttendanceSuccessModal 
+        isOpen={isCelebrationOpen} 
+        record={celebrationRecord} 
+        onClose={() => setIsCelebrationOpen(false)} 
+      />
+      
+      <AttendanceReceiptModal 
+        record={selectedReceiptRecord} 
+        onClose={() => setSelectedReceiptRecord(null)} 
+      />
+      
+      <OfficeSettingsModal 
+        isOpen={isOfficeModalOpen} 
+        offices={offices} 
+        activeOffice={activeOffice}
+        onSave={setOffices}
+        onSelect={setActiveOffice}
+        onClose={() => setIsOfficeModalOpen(false)} 
+      />
+      
+      <OfflineQueueModal 
+        isOpen={isQueueModalOpen} 
+        queue={queue}
+        onClose={() => setIsQueueModalOpen(false)}
+      />
+    </div>
+  );
+}
